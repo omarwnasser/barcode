@@ -1,0 +1,92 @@
+<div class="container">
+  <h1>Barcode Generator</h1>
+
+  <div class="container">
+    <main>
+      <form>
+        <div class="mb-3">
+          <input type="file" name="file" id="file" (change)="onSubmit($event)" class="form-control" placeholder="اختر ملف" aria-describedby="helpId">
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+<div class="container">
+  <!-- <div class="form-check form-check-inline">
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" [(ngModel)]="codetype" value="code128"> code128
+    </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" [(ngModel)]="codetype" value="qrcode"> QrCode
+    </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" [(ngModel)]="codetype" value="code39"> code39
+    </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" [(ngModel)]="codetype" value="code93"> code93
+    </label>
+  </div> -->
+  <div class="mb-3 px-2">
+    <label for="barcodeList" class="form-label">barcode list</label>
+    <select class="form-control" name="barcodeList" id="barcodeList" [(ngModel)]="codetype">
+      <option *ngFor="let item of appService.barcodeList" [value]="item">{{item}}</option>
+    </select>
+  </div>
+</div>
+<div class="container" dir="rtl">
+  <table class="table table-inverse table-inverse table-responsive">
+    <thead class="thead-inverse">
+      <tr>
+        <th *ngFor="let item of header;let i=index">
+          <div class="row">
+            <span class="col-3">
+              <div class="form-check">
+                <input class="form-check-input" [name]="'h'+i" [id]="'h'+i" type="checkbox" [value]="item" aria-label="Text for screen reader" (change)="onCheck($event)">
+              </div>
+            </span>
+            <label class="col-9" [for]="'h'+i">
+              {{item}}
+            </label>
+          </div>
+        </th>
+        <th>#</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataList">
+          <td *ngFor="let m of header">{{item[m]}}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modelId" (click)="showBarCode(item)">barcode</button>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header" dir="rtl">
+            <h5 class="modal-title">البارا كود</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      <div class="modal-body">
+        <div class="container-fluid" id="barcode-modal" #barcode_modal style="text-align: center;">
+
+        </div>
+      </div>
+        <div class="container mb-2">
+          <button class="btn btn-primary" (click)="printBarcode(barcode_modal)">print</button>
+        </div>
+    </div>
+  </div>
+</div>
+
